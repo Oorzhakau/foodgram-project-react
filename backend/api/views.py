@@ -1,10 +1,11 @@
 from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
-def get_permissions(self):
-    # Если в GET-запросе требуется получить информацию об объекте
-    if self.action == 'retrieve':
-        # Вернем обновленный перечень используемых пермишенов
-        return (ReadOnly(),)
-    # Для остальных ситуаций оставим текущий перечень пермишенов без изменений
-    return super().get_permissions()
+from recipes.models import Tag
+from api.serializers import TagSerializer
+
+
+class TagViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    pagination_class = None
