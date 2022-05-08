@@ -23,10 +23,3 @@ urlpatterns = [
     path('api/', include('api.urls', namespace='api')),
     path('api/', include('users.urls', namespace='api_users')),
 ]
-
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
-    urlpatterns += (path('__debug__/', include(debug_toolbar.urls)),)

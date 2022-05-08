@@ -35,6 +35,11 @@ class User(AbstractUser):
         choices=ROLES,
         default=ROLES[0][0]
     )
+    blocked = models.CharField(
+        max_length=10,
+        verbose_name='Блокировка',
+        default=STATUS_CHOICES[1][0]
+    )
 
     @property
     def is_admin(self):
@@ -43,6 +48,13 @@ class User(AbstractUser):
     @property
     def is_user(self):
         return self.role == ROLES[0][0]
+
+    @property
+    def is_blocked(self):
+        return self.blocked == STATUS_CHOICES[0][0]
+
+    class Meta:
+        ordering = ('username',)
 
     def __str__(self):
         return self.username

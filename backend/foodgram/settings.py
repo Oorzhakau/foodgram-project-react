@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
     'colorfield',
-    'debug_toolbar',
     'users.apps.UsersConfig',
     'recipes.apps.RecipesConfig',
     'api.apps.ApiConfig',
@@ -113,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
 
@@ -147,23 +146,15 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    # 'LOGIN_FIELD': 'email',
+    'LOGIN_FIELD': 'email',
     'HIDE_USERS': False,
     'SERIALIZERS': {
-        'user_create': ['users.serializers.CustomUserCreateSerializer'],
-        'user': ['users.serializers.CustomUserSerializer'],
-        'current_user': ['users.serializers.CustomUserSerializer'],
+        'user_create': 'users.serializers.CustomUserCreateSerializer',
+        'user': 'users.serializers.CustomUserSerializer',
+        'current_user': 'users.serializers.CustomUserSerializer',
     },
     'PERMISSIONS': {
-        'user': ['rest_framework.permissions.IsAuthenticated'],
-        'user_list': ['rest_framework.permissions.AllowAny'],
+        'user': ['rest_framework.permissions.IsAuthenticated', ],
+        'user_list': ['rest_framework.permissions.AllowAny', ],
     }
 }
-
-if DEBUG:
-    import mimetypes
-    mimetypes.add_type("application/javascript", ".js", True)
-    INTERNAL_IPS = ('127.0.0.1', )
-    DEBUG_TOOLBAR_CONFIG = {
-        'INTERCEPT_REDIRECTS': False,
-    }
