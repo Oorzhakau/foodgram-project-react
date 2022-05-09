@@ -10,7 +10,7 @@ DATA_ROOT = os.path.join(os.path.dirname(settings.BASE_DIR), 'data')
 
 
 class Command(BaseCommand):
-    help = 'loading ingredients in JSON format'
+    help = 'loading ingredients in JSON file'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -30,6 +30,5 @@ class Command(BaseCommand):
                         name=ingredient['name'],
                         measurement_unit=ingredient['measurement_unit'],
                     )
-
         except FileNotFoundError:
             raise CommandError('Файл не найден.')

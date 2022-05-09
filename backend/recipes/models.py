@@ -1,9 +1,8 @@
 from colorfield.fields import ColorField
-from django.core.validators import MinValueValidator
-from django.contrib.auth import get_user_model
-from django.db import models
-
 from core.models import CreatedModel
+from django.contrib.auth import get_user_model
+from django.core.validators import MinValueValidator
+from django.db import models
 
 User = get_user_model()
 
@@ -68,7 +67,7 @@ class Recipe(CreatedModel):
         upload_to='recipes/images/',
         help_text='Загрузите картинку',
     )
-    description = models.TextField(
+    text = models.TextField(
         verbose_name='Описание',
         help_text='Введите описание рецепта',
     )
@@ -161,7 +160,7 @@ class IngredientsInRecipes(models.Model):
         verbose_name="Кол-во ингредиента",
         validators=(
             MinValueValidator(
-                1, message="Минимальное количество ингредиента - 1"
+                1, message="Убедитесь, что это значение больше либо равно 1."
             ),
         ),
     )
@@ -179,5 +178,18 @@ class RecipesTags(models.Model):
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
+        related_name='tag',
     )
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    tag = models.ForeignKey(
+        Tag,
+        on_delete=models.CASCADE,
+        related_name='recipe',
+    )
+
+    class Meta:
+        ordering = ['-id']
+        verbose_name = 'Тег рецепта'
+        verbose_name_plural = 'Тeги рецептов'
+
+    def __str__(self):
+        return f'{self.tag.name}, {self.recipe.name}'

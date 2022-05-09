@@ -38,6 +38,7 @@ class User(AbstractUser):
     blocked = models.CharField(
         max_length=10,
         verbose_name='Блокировка',
+        choices=STATUS_CHOICES,
         default=STATUS_CHOICES[1][0]
     )
 
