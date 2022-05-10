@@ -28,6 +28,7 @@ class TagViewSet(viewsets.ReadOnlyModelViewSet):
 class IngredientsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerialize
+    pagination_class = None
     filter_backends = (filters.DjangoFilterBackend, rest_filters.SearchFilter)
     filterset_fields = ("name",)
     search_fields = ("^name",)
