@@ -169,6 +169,11 @@ class IngredientsInRecipes(models.Model):
         ordering = ['-id']
         verbose_name = 'Ингредиент в рецепт'
         verbose_name_plural = 'Ингредиент в рецепт'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('ingredient', 'recipe'),
+                name='ingredient_recipe_relations'),
+        )
 
     def __str__(self):
         return f'{self.ingredient.name}, {self.recipe.name}'

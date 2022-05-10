@@ -1,12 +1,12 @@
 from django.core.exceptions import ObjectDoesNotExist
-from rest_framework import serializers
-from rest_framework.validators import UniqueTogetherValidator
-from drf_extra_fields.fields import Base64ImageField
-from rest_framework.generics import get_object_or_404
-from rest_framework.exceptions import ValidationError
 from django.db import transaction
-
-from recipes.models import Tag, Recipe, FavoriteRecipe, Ingredient, IngredientsInRecipes, RecipesTags
+from drf_extra_fields.fields import Base64ImageField
+from recipes.models import (FavoriteRecipe, Ingredient, IngredientsInRecipes,
+                            Recipe, RecipesTags, Tag)
+from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+from rest_framework.generics import get_object_or_404
+from rest_framework.validators import UniqueTogetherValidator
 from users.serializers import CustomUserSerializer
 
 
@@ -163,3 +163,4 @@ class RecipeSerializer(serializers.ModelSerializer):
                 tag=Tag.objects.get(id=tags_id)
             )
         return super().update(instance, validated_data)
+
