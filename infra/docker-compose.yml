@@ -10,9 +10,7 @@ services:
       - ./.env
 
   backend:
-    build:
-      context: ../backend/
-      dockerfile: Dockerfile
+    image: oorzhakau/foodgram_backend:latest
     command: >
       sh -c "python manage.py makemigrations users &&
              python manage.py makemigrations core &&
@@ -32,14 +30,12 @@ services:
     env_file:
       - ./.env
 
-  # frontend:
-  #   build:
-  #     context: ../frontend
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ../frontend/:/app/result_build/
-  #   depends_on:
-  #     - db
+  frontend:
+    image: oorzhakau/foodgram_frontend:latest
+    volumes:
+      - ../frontend/:/app/result_build/
+    depends_on:
+      - db
 
   nginx:
     image: nginx:1.19.3

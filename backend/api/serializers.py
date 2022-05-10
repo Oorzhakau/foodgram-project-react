@@ -53,7 +53,7 @@ class IngredientsInRecipesSerialize(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для рецептов
+    Сериализатор для рецептов.
     """
 
     author = CustomUserSerializer(
@@ -126,7 +126,7 @@ class RecipeSerializer(serializers.ModelSerializer):
             if int(ingredient_item["amount"]) < 1:
                 raise serializers.ValidationError(
                     {
-                        "amount": f'[id={ingredient_item["id"]}]. Убедитесь, что это значение больше либо равно 1.'
+                        "amount": 'Убедитесь, что это значение не меньше 1.'
                     }
                 )
             if ingredient in lst_unique_ingredients:
@@ -195,6 +195,9 @@ class FavoriteRecipeSerializer(serializers.ModelSerializer):
 
 
 class FollowSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для подписок.
+    """
     recipes = serializers.SerializerMethodField()
     is_subscribed = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
