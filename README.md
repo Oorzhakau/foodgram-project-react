@@ -72,7 +72,7 @@ pip install -r backend\requirements.txt
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 ```
-1. Скопируйте файлы docker-compose.yaml и nginx.conf из `infra` проекта на сервер в
+3. Скопируйте файлы docker-compose.yaml и nginx.conf из `infra` проекта на сервер в
 home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно.
 ```
 scp docker-compose.yml <username>@<host>:/home/<username>/docker-compose.yml
