@@ -42,8 +42,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
 @admin.register(FavoriteRecipe)
 class FavoriteAdmin(admin.ModelAdmin):
-    autocomplete_fields = ('recipe',)
-    list_display = ('pk', 'user', 'shopping_cart', 'favorite',)
+    list_display = ('pk', 'user', 'recipe', 'shopping_cart', 'favorite',)
 
 
 @admin.register(RecipesTags)

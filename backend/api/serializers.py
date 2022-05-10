@@ -8,15 +8,28 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.generics import get_object_or_404
 from rest_framework.validators import UniqueTogetherValidator
 from users.serializers import CustomUserSerializer
+from users.models import Follow
+from django.contrib.auth import get_user_model
+from django.utils.datastructures import MultiValueDictKeyError
+
+User = get_user_model()
 
 
 class TagSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для тегов.
+    """
+
     class Meta:
         model = Tag
         fields = ['id', 'name', 'color', 'slug']
 
 
 class IngredientSerialize(serializers.ModelSerializer):
+    """
+    Сериализатор для ингредиентов.
+    """
+
     class Meta:
         model = Ingredient
         fields = ['id', 'name', 'measurement_unit']
@@ -24,7 +37,7 @@ class IngredientSerialize(serializers.ModelSerializer):
 
 class IngredientsInRecipesSerialize(serializers.ModelSerializer):
     """
-    Сериализатор для вывода количества ингредиентов.
+    Сериализатор для вывода количества ингредиентов в рецепте.
     """
     id = serializers.ReadOnlyField(source='ingredient.id')
     name = serializers.ReadOnlyField(source='ingredient.name')
@@ -34,10 +47,13 @@ class IngredientsInRecipesSerialize(serializers.ModelSerializer):
 
     class Meta:
         model = IngredientsInRecipes
-        fields = ('id', 'name', 'measurement_unit', 'amount')
+        fields = ['id', 'name', 'measurement_unit', 'amount']
 
 
 class RecipeSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для рецептов
+    """
     author = CustomUserSerializer(
         read_only=True,
         default=serializers.CurrentUserDefault()
@@ -164,3 +180,51 @@ class RecipeSerializer(serializers.ModelSerializer):
             )
         return super().update(instance, validated_data)
 
+
+class FavoriteRecipeSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор для избранных рецептов.
+    """
+
+    class Meta:
+        model = Recipe
+        fields = ['id', 'name', 'image', 'cooking_time']
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    recipes = serializers.SerializerMethodField()
+    is_subscribed = serializers.SerializerMethodField()
+    recipes_count = serializers.SerializerMethodField()
+
+    class Meta:
+        fields = (
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_subscribed',
+            'recipes',
+            'recipes_count',
+        )
+        model = User
+
+    def get_is_subscribed(self, obj):
+        user = self.context.get('request').user
+        if user.is_anonymous:
+            return False
+        return Follow.objects.filter(
+            author=obj, user=user
+        ).exists()
+
+    def get_recipes(self, obj):
+        recipes = Recipe.objects.filter(author=obj).all()
+        try:
+            limit = int(self.context['request'].query_params['recipes_limit'])
+            recipes = recipes[:limit]
+        except MultiValueDictKeyError:
+            pass
+        return FavoriteRecipeSerializer(recipes, many=True).data
+
+    def get_recipes_count(self, obj):
+        return Recipe.objects.filter(author=obj).count()

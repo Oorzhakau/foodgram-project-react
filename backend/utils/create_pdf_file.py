@@ -1,18 +1,11 @@
-from reportlab.pdfgen import canvas
-from reportlab.lib import colors
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
-from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
-from reportlab.lib.units import inch
-from typing import Dict
 from django.http import FileResponse
 
-from reportlab.lib.enums import TA_JUSTIFY, TA_CENTER, TA_LEFT
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_LEFT
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
+from reportlab.lib.styles import ParagraphStyle
 from typing import List, Dict
 import io
 import os
@@ -20,28 +13,7 @@ import os
 FONTS_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-# def create_pdf(obj: Dict[str, str]):
-#     buffer = io.BytesIO()
-#     pdf = canvas.Canvas(buffer, pagesize=A4, bottomup=0)
-#
-#     font_fullpath = os.path.join(FONTS_ROOT, 'fonts/', 'RobotoFlex-Regular.ttf')
-#     pdfmetrics.registerFont(TTFont('RobotoFlex-Regular', font_fullpath))
-#     pdf.setFont('RobotoFlex-Regular', 14)
-#     pdf.setTitle(obj['doc_title'])
-#
-#     textob = pdf.beginText()
-#     textob.setTextOrigin(inch, inch)
-#
-#     for line in obj['text']:
-#         textob.textLine(line)
-#     pdf.drawText(textob)
-#     pdf.showPage()
-#     pdf.save()
-#     buffer.seek(0)
-#     return FileResponse(buffer, as_attachment=True, filename=obj['file_name'])
-#
-
-def addTitle(doc: List, title: str, size: int, space: int, ta):
+def addTitle(doc: List, title: str, size: int, space: int, ta: int):
     doc.append(Spacer(1, 20))
     doc.append(Paragraph(title,
                          ParagraphStyle(
