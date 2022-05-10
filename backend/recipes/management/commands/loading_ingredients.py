@@ -6,29 +6,32 @@ from django.core.management.base import BaseCommand, CommandError
 
 from recipes.models import Ingredient
 
-DATA_ROOT = os.path.join(os.path.dirname(settings.BASE_DIR), 'data')
+DATA_ROOT = os.path.join(os.path.dirname(settings.BASE_DIR), "data")
 
 
 class Command(BaseCommand):
-    help = 'loading ingredients in JSON file'
+    help = "loading ingredients in JSON file"
 
     def add_arguments(self, parser):
         parser.add_argument(
-            'filename', default='ingredients.json', nargs='?', type=str
+            "filename",
+            default="ingredients.json",
+            nargs="?",
+            type=str
         )
 
     def handle(self, *args, **options):
         try:
             with open(
-                    os.path.join(DATA_ROOT, options['filename']),
-                    'r',
-                    encoding='utf-8',
+                os.path.join(DATA_ROOT, options["filename"]),
+                "r",
+                encoding="utf-8",
             ) as f:
                 data = json.load(f)
                 for ingredient in data:
                     Ingredient.objects.update_or_create(
-                        name=ingredient['name'],
-                        measurement_unit=ingredient['measurement_unit'],
+                        name=ingredient["name"],
+                        measurement_unit=ingredient["measurement_unit"],
                     )
         except FileNotFoundError:
-            raise CommandError('Файл не найден.')
+            raise CommandError("Файл не найден.")

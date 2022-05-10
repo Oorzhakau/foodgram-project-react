@@ -2,44 +2,38 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 ROLES = [
-    ('user', 'user'),
-    ('admin', 'admin'),
+    ("user", "user"),
+    ("admin", "admin"),
 ]
 
 STATUS_CHOICES = [
-    ('b', 'Block'),
-    ('u', 'Unblock'),
+    ("b", "Block"),
+    ("u", "Unblock"),
 ]
 
 
 class User(AbstractUser):
-    username = models.CharField(
-        max_length=150,
-        unique=True
-    )
+    username = models.CharField(max_length=150, unique=True)
     first_name = models.CharField(
         max_length=150,
-        verbose_name='Имя',
+        verbose_name="Имя",
     )
     last_name = models.CharField(
         max_length=150,
-        verbose_name='Фамилия',
+        verbose_name="Фамилия",
     )
     email = models.EmailField(
         max_length=254,
         unique=True,
     )
     role = models.CharField(
-        max_length=25,
-        verbose_name='role',
-        choices=ROLES,
-        default=ROLES[0][0]
+        max_length=25, verbose_name="role", choices=ROLES, default=ROLES[0][0]
     )
     blocked = models.CharField(
         max_length=10,
-        verbose_name='Блокировка',
+        verbose_name="Блокировка",
         choices=STATUS_CHOICES,
-        default=STATUS_CHOICES[1][0]
+        default=STATUS_CHOICES[1][0],
     )
 
     @property
@@ -55,7 +49,7 @@ class User(AbstractUser):
         return self.blocked == STATUS_CHOICES[0][0]
 
     class Meta:
-        ordering = ('username',)
+        ordering = ("username",)
 
     def __str__(self):
         return self.username
@@ -65,23 +59,23 @@ class Follow(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Пользователь',
-        related_name='follower'
+        verbose_name="Пользователь",
+        related_name="follower",
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Автор',
-        related_name='following'
+        verbose_name="Автор",
+        related_name="following",
     )
 
     class Meta:
-        verbose_name = 'Подписка'
-        verbose_name_plural = 'Подписки'
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'author'],
-                name='unique_following'),
+                fields=["user", "author"], name="unique_following"
+            ),
         ]
 
     def __str__(self):
