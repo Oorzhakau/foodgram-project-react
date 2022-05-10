@@ -73,7 +73,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 3. Скопируйте файлы docker-compose.yaml и nginx.conf из `infra` проекта на сервер в
-home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно.
+home/<ваш_username>/docker-compose.yaml и home/<ваш_username>/nginx/default.conf соответственно (возможно с ключом -i).
 ```
 scp docker-compose.yml <username>@<host>:/home/<username>/docker-compose.yml
 scp nginx.conf <username>@<host>:/home/<username>/nginx.conf
