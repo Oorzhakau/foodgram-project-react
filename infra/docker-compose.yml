@@ -10,7 +10,7 @@ services:
       - ./.env
 
   backend:
-    image: oorzhakau/foodgram_backend:latest
+    image: oorzhakau/foodgram_backend:v1
     command: >
       sh -c "python manage.py makemigrations users &&
              python manage.py makemigrations core &&
@@ -31,7 +31,7 @@ services:
       - ./.env
 
   frontend:
-    image: oorzhakau/foodgram_frontend:latest
+    image: oorzhakau/foodgram_frontend:v1
     volumes:
       - ../frontend/:/app/result_build/
     depends_on:
