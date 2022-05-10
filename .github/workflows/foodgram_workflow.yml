@@ -26,7 +26,7 @@ jobs:
           python -m flake8 backend
 
   build_and_push_to_docker_hub:
-    name: Push Docker image api_yamdb to Docker Hub
+    name: Push Docker image footgram to Docker Hub
     runs-on: ubuntu-latest
     needs: tests
     steps:
