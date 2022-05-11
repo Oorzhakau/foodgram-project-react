@@ -10,7 +10,7 @@ services:
       - ./.env
 
   backend:
-    image: oorzhakau/foodgram_backend:v1
+    image: oorzhakau/foodgram_backend:v1.1
     command: >
       sh -c "python manage.py makemigrations users &&
              python manage.py makemigrations core &&
