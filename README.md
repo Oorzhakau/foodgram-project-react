@@ -101,5 +101,15 @@ scp nginx.conf <username>@<host>:/home/<username>/nginx.conf
 ## Ссылка на проект
 Проект развернут по адресу http://51.250.29.63/
 
+User администратора
+
+```
+username: admin
+
+email admin: admin@mail.com
+
+password: qwerty_1234
+```
+
 ## Автор:
 [Александр Ооржак](https://github.com/Oorzhakau)
