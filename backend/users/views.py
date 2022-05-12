@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet
 from rest_framework import status
 from rest_framework.decorators import action
@@ -8,10 +7,8 @@ from rest_framework.response import Response
 
 from api.paginations import CustomPageSizePagination
 from api.serializers import FollowSerializer
-from users.models import Follow
+from users.models import Follow, User
 from users.serializers import CustomUserSerializer
-
-User = get_user_model()
 
 
 class CustomUserViewSet(UserViewSet):
@@ -46,7 +43,7 @@ class CustomUserViewSet(UserViewSet):
                     status=status.HTTP_400_BAD_REQUEST,
                 )
             if Follow.objects.filter(
-                author=author, user=self.request.user
+                    author=author, user=self.request.user
             ).exists():
                 return Response(
                     {"errors": "Вы уже подписаны на данного пользователя."},

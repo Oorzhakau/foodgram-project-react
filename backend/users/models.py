@@ -36,6 +36,12 @@ class User(AbstractUser):
         default=STATUS_CHOICES[1][0],
     )
 
+    class Meta:
+        ordering = ("username",)
+
+    def __str__(self):
+        return self.username
+
     @property
     def is_admin(self):
         return self.role == ROLES[-1][0] or self.is_staff or self.is_superuser
@@ -48,11 +54,6 @@ class User(AbstractUser):
     def is_blocked(self):
         return self.blocked == STATUS_CHOICES[0][0]
 
-    class Meta:
-        ordering = ("username",)
-
-    def __str__(self):
-        return self.username
 
 
 class Follow(models.Model):

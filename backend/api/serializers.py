@@ -1,4 +1,3 @@
-from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.utils.datastructures import MultiValueDictKeyError
@@ -9,10 +8,8 @@ from rest_framework.validators import UniqueTogetherValidator
 
 from recipes.models import (FavoriteRecipe, Ingredient, IngredientsInRecipes,
                             Recipe, RecipesTags, Tag)
-from users.models import Follow
+from users.models import Follow, User
 from users.serializers import CustomUserSerializer
-
-User = get_user_model()
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -22,7 +19,7 @@ class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
-        fields = ["id", "name", "color", "slug"]
+        fields = ("id", "name", "color", "slug")
 
 
 class IngredientSerialize(serializers.ModelSerializer):
@@ -32,7 +29,7 @@ class IngredientSerialize(serializers.ModelSerializer):
 
     class Meta:
         model = Ingredient
-        fields = ["id", "name", "measurement_unit"]
+        fields = ("id", "name", "measurement_unit")
 
 
 class IngredientsInRecipesSerialize(serializers.ModelSerializer):
@@ -48,7 +45,7 @@ class IngredientsInRecipesSerialize(serializers.ModelSerializer):
 
     class Meta:
         model = IngredientsInRecipes
-        fields = ["id", "name", "measurement_unit", "amount"]
+        fields = ("id", "name", "measurement_unit", "amount")
 
 
 class RecipeSerializer(serializers.ModelSerializer):
@@ -67,18 +64,7 @@ class RecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = [
-            "id",
-            "tags",
-            "author",
-            "ingredients",
-            "is_favorited",
-            "is_in_shopping_cart",
-            "name",
-            "image",
-            "text",
-            "cooking_time",
-        ]
+        fields = '__all__'
 
         validators = [
             UniqueTogetherValidator(
@@ -191,7 +177,7 @@ class FavoriteRecipeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Recipe
-        fields = ["id", "name", "image", "cooking_time"]
+        fields = ("id", "name", "image", "cooking_time")
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -203,16 +189,7 @@ class FollowSerializer(serializers.ModelSerializer):
     recipes_count = serializers.SerializerMethodField()
 
     class Meta:
-        fields = (
-            "email",
-            "id",
-            "username",
-            "first_name",
-            "last_name",
-            "is_subscribed",
-            "recipes",
-            "recipes_count",
-        )
+        fields = '__all__'
         model = User
 
     def get_is_subscribed(self, obj):
