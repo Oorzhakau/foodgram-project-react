@@ -99,7 +99,7 @@ scp nginx.conf <username>@<host>:/home/<username>/nginx.conf
 об успешном деплои
 
 ## Ссылка на проект
-Проект развернут по адресу http://51.250.29.63/
+Проект развернут по адресу http://oo-foodgram.ddns.net/ или http://51.250.29.63/
 
 User администратора
 
