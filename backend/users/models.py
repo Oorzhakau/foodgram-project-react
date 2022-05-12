@@ -55,7 +55,6 @@ class User(AbstractUser):
         return self.blocked == STATUS_CHOICES[0][0]
 
 
-
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
